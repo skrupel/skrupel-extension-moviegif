@@ -2,16 +2,15 @@
 
 $game_id = (int) $_GET['game'];
 
-include ('../../inc.conf.php');
-
-$conn = @mysql_connect($db_server, $db_login, $db_password);
-@mysql_select_db($db_name, $conn);
+include (dirname(__FILE__).'/../../inc.conf.php');
+include (dirname(__FILE__).'/../../inhalt/inc.hilfsfunktionen.php');
+open_db();
 
 $zeiger = @mysql_query("SELECT phase FROM skrupel_spiele WHERE phase = 1 AND id = $game_id LIMIT 1");
 
 if (@mysql_num_rows($zeiger) == 1) {
 
-    $moviegif_files_path = '../../files/moviegif/';
+    $moviegif_files_path = dirname(__FILE__).'/files/moviegif/';
     $movie_file = $moviegif_files_path . 'movies/moviegif_' . $game_id . '.gif';
 
     if (!@file_exists($movie_file))  {
@@ -56,3 +55,5 @@ if (@mysql_num_rows($zeiger) == 1) {
 }
 
 @mysql_close($conn);
+
+?>
